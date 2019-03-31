@@ -6,10 +6,10 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
 service Maintenance {
-    rpc Status(google.protobuf.Empty) returns (Status);
+    rpc Status(google.protobuf.Empty) returns (StatusResponse);
 }
 
-message Status {
+message StatusResponse {
     message IncrementStatus {
         int64 id = 1;
         int64 value = 2;
