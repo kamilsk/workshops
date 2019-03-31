@@ -2,12 +2,28 @@ syntax = "proto3";
 
 package protobuf;
 
+import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
 service Sequence {
-    rpc Increment(google.protobuf.Empty) returns (IncrementNumber);
-    rpc Fibonacci(google.protobuf.Empty) returns (FibonacciNumber);
-    rpc Unique(google.protobuf.Empty) returns (UniqueString);
+    rpc Increment (google.protobuf.Empty) returns (IncrementNumber) {
+        option (google.api.http) = {
+            post: "/api/v1/sequence/increment"
+            body: "*"
+        };
+    };
+    rpc Fibonacci (google.protobuf.Empty) returns (FibonacciNumber) {
+        option (google.api.http) = {
+            post: "/api/v1/sequence/fibonacci"
+            body: "*"
+        };
+    };
+    rpc Unique (google.protobuf.Empty) returns (UniqueString) {
+        option (google.api.http) = {
+            post: "/api/v1/sequence/unique"
+            body: "*"
+        };
+    };
 }
 
 message IncrementNumber {
