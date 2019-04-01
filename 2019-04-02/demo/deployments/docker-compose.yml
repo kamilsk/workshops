@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+
+  server:
+    image: nginx:alpine
+    depends_on:
+      - service
+      - spec
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ../deployments/nginx/service.conf:/etc/nginx/conf.d/service.conf:ro
+      - ../deployments/nginx/spec.conf:/etc/nginx/conf.d/spec.conf:ro
+
+  service:
+    image: workshops/service-declarative-definition:latest
+    build:
+      context:    ../.
+      dockerfile: ./env/docker/service/Dockerfile
+    command: [ "run" ]
+
+  spec:
+    image: swaggerapi/swagger-ui:latest
+    depends_on:
+      - service
+    volumes:
+      - ../api/swagger-spec/service.swagger.json:/app/swagger.json:ro

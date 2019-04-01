@@ -6,12 +6,19 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"runtime"
 	"time"
 
 	"github.com/kamilsk/platform/pkg/safe"
 
 	"workshops/service-declarative-definition/internal/protocol/grpc"
 	"workshops/service-declarative-definition/internal/protocol/grpc/gateway"
+)
+
+var (
+	commit  = "none"
+	date    = "unknown"
+	version = "dev"
 )
 
 var (
@@ -39,6 +46,8 @@ func main() {
 		grpc.WithMaintenanceServer(grpc.NewMaintenanceServer()),
 		grpc.WithSequenceServer(grpc.NewSequenceServer()),
 	)
+	log.Printf("Version %s (commit: %s, build date: %s, go version: %s, compiler: %s, platform: %s/%s)\n",
+		version, commit, date, runtime.Version(), runtime.Compiler, runtime.GOOS, runtime.GOARCH)
 
 	go func() {
 		time.Sleep(time.Second)
