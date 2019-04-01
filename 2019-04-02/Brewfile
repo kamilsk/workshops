@@ -1,0 +1,5 @@
+brew 'php'
+brew 'python3'
+brew 'composer'
+brew 'protobuf'
+brew 'tree'
