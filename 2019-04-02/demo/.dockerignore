@@ -1,4 +1,6 @@
 /api
 /bin
 /build
+/deployments
+/scripts
 .gitignore
