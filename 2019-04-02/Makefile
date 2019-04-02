@@ -14,7 +14,10 @@ go-deps:
 
 .PHONY: os-deps
 os-deps:
-	@brew bundle
+	@brew install protobuf || true
+	@brew install python3  || true
+	@brew install tree     || true
+	@curl -sL https://git.io/fhTCA | sh
 
 .PHONY: proto-deps
 proto-deps:
