@@ -16,9 +16,6 @@ services:
 
   service:
     image: workshops/service-declarative-definition:latest
-    build:
-      context:    ../.
-      dockerfile: ./env/docker/service/Dockerfile
     command: [ "run" ]
 
   spec:

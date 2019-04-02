@@ -61,7 +61,7 @@ step-3:
 	@cd demo && go run cmd/server/main.go &
 	@sleep 2
 	@cd demo && go run cmd/client/main.go
-	@ps aux | grep '[g]o run cmd/server' | awk '{print $$2}' | xargs kill -9 $1
+	@ps aux | grep '[g]o run cmd/server'  | awk '{print $$2}' | xargs kill -9 $1
 	@ps aux | grep '[g]o-build.*exe/main' | awk '{print $$2}' | xargs kill -9 $1
 
 .PHONY: step-4
@@ -94,11 +94,11 @@ step-5:
 	@git checkout d3e1c969b9528b55cb83eedd3c751736ee91f1f8 -- demo/internal/protocol/grpc/gateway
 	@make format
 	@git diff d3e1c969b9528b55cb83eedd3c751736ee91f1f8.. demo/api
-	@make view wait
+	@make build view wait
 	@cd demo && docker-compose -f deployments/docker-compose.yml up -d
 	@sleep 2
 	@open http://spec.127.0.0.1.xip.io
-	@make build wait
+	@make wait
 	@demo/bin/client -host service.127.0.0.1.xip.io:443
 	@make wait
 	@cd demo && docker-compose -f deployments/docker-compose.yml down
