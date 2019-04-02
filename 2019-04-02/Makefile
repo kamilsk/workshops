@@ -14,6 +14,7 @@ go-deps:
 
 .PHONY: os-deps
 os-deps:
+	@brew install go       || true
 	@brew install protobuf || true
 	@brew install python3  || true
 	@brew install tree     || true
@@ -69,6 +70,7 @@ step-4:
 	@rm -rf demo/*
 	@git checkout d3e1c969b9528b55cb83eedd3c751736ee91f1f8 -- demo
 	@mkdir -p demo/internal/protocol/grpc/gateway
+	@cd demo && go get github.com/grpc-ecosystem/grpc-gateway@v1.8.5
 	@protoc -Idemo/api/protobuf-spec \
 	        -I"$(GOPATH)"/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.8.5/third_party/googleapis \
 	        --go_out=plugins=grpc,logtostderr=true:demo/internal/protocol/grpc/protobuf \
@@ -92,6 +94,8 @@ step-5:
 	        --swagger_out=logtostderr=true,allow_merge=true,merge_file_name=service:demo/api/swagger-spec \
 	        sequence.proto maintenance.proto
 	@git checkout d3e1c969b9528b55cb83eedd3c751736ee91f1f8 -- demo/internal/protocol/grpc/gateway
+	@git reset HEAD demo/deployments/docker-compose.yml
+	@git checkout demo/deployments/docker-compose.yml
 	@make format
 	@git diff d3e1c969b9528b55cb83eedd3c751736ee91f1f8.. demo/api
 	@make build view wait
@@ -107,6 +111,8 @@ step-5:
 step-6:
 	@rm -rf demo/*
 	@git checkout 6dbc56957da30ddbbd9935dd71424e50007e24c7 -- demo
+	@git reset HEAD demo/deployments/docker-compose.yml
+	@git checkout demo/deployments/docker-compose.yml
 	@mkdir -p demo/scripts/py
 	@( \
 	  cd demo; \
