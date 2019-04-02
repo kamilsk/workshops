@@ -117,8 +117,8 @@ step-6:
 	         --python_out=scripts/py \
 	         --grpc_python_out=scripts/py \
 	         sequence.proto; \
-	  docker-compose -f deployments/docker-compose.yml up -d \
-	  sleep 2
+	  docker-compose -f deployments/docker-compose.yml up -d; \
+	  sleep 2; \
 	  python scripts/py/client.py; \
 	  deactivate; \
 	)
@@ -157,7 +157,7 @@ format:
 
 .PHONY: view
 view:
-	@tree demo
+	@tree -L 3 demo
 
 .PHONY: wait
 wait:
