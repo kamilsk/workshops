@@ -95,7 +95,7 @@ step-5:
 	@cd demo && docker-compose -f deployments/docker-compose.yml up -d
 	@sleep 2
 	@open http://spec.127.0.0.1.xip.io
-	@make wait
+	@make build wait
 	@demo/bin/client -host service.127.0.0.1.xip.io:443
 	@make wait
 	@cd demo && docker-compose -f deployments/docker-compose.yml down
@@ -117,10 +117,13 @@ step-6:
 	         --python_out=scripts/py \
 	         --grpc_python_out=scripts/py \
 	         sequence.proto; \
+	  docker-compose -f deployments/docker-compose.yml up -d \
+	  sleep 2
 	  python scripts/py/client.py; \
 	  deactivate; \
 	)
 	@make wait
+	@cd demo && docker-compose -f deployments/docker-compose.yml down
 
 
 .PHONY: audit
