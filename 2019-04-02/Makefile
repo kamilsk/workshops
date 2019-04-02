@@ -51,7 +51,7 @@ step-2:
 	@protoc -Idemo/api/protobuf-spec \
 	        --go_out=plugins=grpc,logtostderr=true:demo/internal/protocol/grpc/protobuf \
 	        sequence.proto maintenance.proto
-	@git diff fd9fe8dae0b4efb95bd96b0f58614b84f2f151c0.. demo/api
+	@git diff fd9fe8dae0b4efb95bd96b0f58614b84f2f151c0..fbe4d303757f50437e2a8d293036667ce162b707 demo/api
 	@make format view
 
 .PHONY: step-3
@@ -78,7 +78,7 @@ step-4:
 	        sequence.proto maintenance.proto
 	@git checkout d3e1c969b9528b55cb83eedd3c751736ee91f1f8 -- demo/internal/protocol/grpc/gateway
 	@make format
-	@git diff d8cfbf295eddb6622f8fa690efcd945cf464b06d.. demo/api
+	@git diff d8cfbf295eddb6622f8fa690efcd945cf464b06d..d3e1c969b9528b55cb83eedd3c751736ee91f1f8 demo/api
 	@make view wait
 	@cd demo && go run cmd/server/main.go
 
@@ -97,7 +97,7 @@ step-5:
 	@git reset HEAD demo/deployments/docker-compose.yml
 	@git checkout demo/deployments/docker-compose.yml
 	@make format
-	@git diff d3e1c969b9528b55cb83eedd3c751736ee91f1f8.. demo/api
+	@git diff d3e1c969b9528b55cb83eedd3c751736ee91f1f8..b2b1f7adcebcd482cc0d72ddcefddf066303d309 demo/api
 	@make build view wait
 	@cd demo && docker-compose -f deployments/docker-compose.yml up -d
 	@sleep 2
