@@ -2,12 +2,10 @@
 
 set -euo pipefail
 
-mkdir -p ~/Documents/service-declarative-definition-workshop
+mkdir -p ~/Documents/workshops
 
-git clone \
-          -b service-declarative-definition ssh://git@stash.msk.avito.ru:7999/swat/workshops.git \
-          ~/Documents/service-declarative-definition-workshop
+git clone git@github.com:kamilsk/workshops.git ~/Documents/workshops
 
-cd ~/Documents/service-declarative-definition-workshop/2019-04-02
+cd ~/Documents/workshops/2019-04-02
 
 make deps format
