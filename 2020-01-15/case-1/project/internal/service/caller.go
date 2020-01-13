@@ -36,6 +36,6 @@ func (i *implementation) Call(action internal.Action) error {
 }
 
 func discard(body io.ReadCloser) {
-	_, _ = io.Copy(ioutil.Discard, body)
-	_ = body.Close()
+	io.Copy(ioutil.Discard, body)
+	body.Close()
 }

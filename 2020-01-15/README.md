@@ -69,6 +69,13 @@ root@hash:/app# go test -race ./...
 # чиним тесты
 root@hash:/app# git apply /git/tests.patch
 root@hash:/app# go test -race ./...
+
+# что будет если изучить go.mod и go.sum
+root@hash:/app# go mod why golang.org/x/tools
+root@hash:/app# go mod tidy # https://github.com/golang/mock/blob/master/go.mod#L3
+root@hash:/app# go get github.com/vektra/mockery/cmd/mockery
+root@hash:/app# go mod why github.com/vektra/mockery
+root@hash:/app# go mod tidy # https://github.com/vektra/mockery/blob/master/go.mod#L4
 ```
 
 ### Занавес
@@ -83,9 +90,9 @@ $ deactivate
 Внесение правок с помощью своих инструментов. Примеры:
 
 - [golint](https://github.com/golang/lint) (Infomodel, Recommendations)
-- [codecoroner](https://github.com/3rf/codecoroner)<sup id="info-1">[1](#unsupported)</sup> (Recommendations)
 - [golangci-lint](https://github.com/golangci/golangci-lint) (BuyerX, Verticals)
 - [goimports](https://github.com/kamilsk/go-tools/releases/tag/goimports) (Avito, but...)
+- [codecoroner](https://github.com/3rf/codecoroner)<sup id="info-1">[1](#unsupported)</sup> (Recommendations)
 
 ## Сценарий третий
 
@@ -93,6 +100,11 @@ $ deactivate
 
 - [Откуда растут ноги](https://github.com/golang/go/issues/25922)
 - [Автор gobin](https://github.com/myitcv/gobin)
-- [golangci-lint](https://github.com/golangci/golangci-lint)
+
+### Примеры
+
+- [Dapr](https://github.com/dapr/dapr)
+- [GolangCI-Lint](https://github.com/golangci/golangci-lint)
+- [Standard Go Project Layout](https://github.com/golang-standards/project-layout)<sup>*</sup>
 
 <sup id="unsupported">1</sup> <small>Больше не поддерживается.</small> [↩](#info-1)

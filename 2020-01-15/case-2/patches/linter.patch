@@ -1,0 +1,70 @@
+diff --git a/cmd/server.go b/cmd/server.go
+index 0d56d0c..1508239 100644
+--- a/cmd/server.go
++++ b/cmd/server.go
+@@ -8,21 +8,22 @@ import (
+ 	"os"
+ 	"time"
+ 
++	"tech.avito.ru/service/internal"
+ 	"tech.avito.ru/service/internal/handler"
+ 	"tech.avito.ru/service/internal/service"
+ )
+ 
+ func main() {
+ 	http.HandleFunc("/echo", func(rw http.ResponseWriter, req *http.Request) {
+-		req.ParseForm()
++		internal.Ignore(req.ParseForm())
+ 		if delay := req.Form.Get("delay"); delay != "" {
+ 			if d, err := time.ParseDuration(delay); err == nil {
+ 				time.Sleep(d)
+ 			}
+ 		}
+ 		out := io.MultiWriter(rw, os.Stdout)
+-		io.Copy(out, req.Body)
+-		fmt.Fprintln(out)
++		internal.DoSilent(io.Copy(out, req.Body))
++		internal.DoSilent(fmt.Fprintln(out))
+ 	})
+ 	http.Handle("/", handler.Proxy(service.New()))
+ 	log.Fatalln(http.ListenAndServe(":80", http.DefaultServeMux))
+diff --git a/internal/service/caller.go b/internal/service/caller.go
+index c5f7bb5..b5ade73 100644
+--- a/internal/service/caller.go
++++ b/internal/service/caller.go
+@@ -39,6 +39,6 @@ func (i *implementation) Call(ctx context.Context, action internal.Action) error
+ }
+ 
+ func discard(body io.ReadCloser) {
+-	io.Copy(ioutil.Discard, body)
+-	body.Close()
++	internal.DoSilent(io.Copy(ioutil.Discard, body))
++	internal.Ignore(body.Close())
+ }
+diff --git a/internal/unsafe.go b/internal/unsafe.go
+new file mode 100644
+index 0000000..9c4bb68
+--- /dev/null
++++ b/internal/unsafe.go
+@@ -0,0 +1,21 @@
++package internal
++
++// sources
++// old: https://github.com/kamilsk/platform/blob/master/pkg/unsafe/error.go
++// new: https://github.com/octolab/pkg/blob/master/unsafe/suppress.go
++
++// DoSilent accepts a result of
++// * fmt.Fprint* function family
++// * io.Copy* and io.Read* function family
++// * io.Writer interface
++// and allows to ignore it.
++//
++//  DoSilent(fmt.Fprintln(writer, "ignore the result"))
++//
++func DoSilent(interface{}, error) {}
++
++// Ignore accepts an error and allows to ignore it.
++//
++//  Ignore(template.Must(template.New("html").Parse(content)).Execute(writer, data))
++//
++func Ignore(error) {}

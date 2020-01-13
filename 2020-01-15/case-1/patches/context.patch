@@ -1,10 +1,14 @@
 diff --git a/internal/handler/header.go b/internal/handler/header.go
 new file mode 100644
-index 0000000..de3eac0
+index 0000000..239cefd
 --- /dev/null
 +++ b/internal/handler/header.go
-@@ -0,0 +1,40 @@
+@@ -0,0 +1,44 @@
 +package handler
++
++// sources
++// old: https://github.com/kamilsk/platform/blob/master/protocol/http/header.go
++// new: https://github.com/octolab/protocol/blob/master/http/header.go
 +
 +import (
 +	"net/http"
