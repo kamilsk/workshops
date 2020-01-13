@@ -1,0 +1,13 @@
+diff --git a/internal/handler/proxy_test.go b/internal/handler/proxy_test.go
+index 403a385..8ae065c 100644
+--- a/internal/handler/proxy_test.go
++++ b/internal/handler/proxy_test.go
+@@ -24,7 +24,7 @@ func TestProxy(t *testing.T) {
+ 	caller := NewMockCaller(ctrl)
+ 	record := httptest.NewRecorder()
+ 
+-	caller.EXPECT().Call(action).Return(nil)
++	caller.EXPECT().Call(gomock.Any(), action).Return(nil)
+ 
+ 	request, err := http.NewRequest(http.MethodGet, fmt.Sprintf("/?uri=%s", url.QueryEscape(action.URI)), nil)
+ 	require.NoError(t, err)

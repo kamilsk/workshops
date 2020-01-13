@@ -1,5 +1,7 @@
 module workshops/service-declarative-definition
 
+go 1.13
+
 require (
 	github.com/davecgh/go-spew v1.1.1
 	github.com/golang/protobuf v1.3.1

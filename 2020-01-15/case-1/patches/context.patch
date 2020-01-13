@@ -1,0 +1,124 @@
+diff --git a/internal/handler/header.go b/internal/handler/header.go
+new file mode 100644
+index 0000000..de3eac0
+--- /dev/null
++++ b/internal/handler/header.go
+@@ -0,0 +1,40 @@
++package handler
++
++import (
++	"net/http"
++	"strconv"
++	"strings"
++	"time"
++)
++
++const (
++	CacheControlHeader = "Cache-Control"
++	XStrictHeader      = "X-Strict"
++	XTimeoutHeader     = "X-Timeout"
++)
++
++// Header extends built-in http.Header.
++type Header http.Header
++
++// NoCache returns true if the header has no-cache value of cache control.
++func (header Header) NoCache() bool {
++	return strings.EqualFold(http.Header(header).Get(CacheControlHeader), "no-cache")
++}
++
++// Strict returns true if the header has this value.
++func (header Header) Strict() bool {
++	var strict bool
++	if v := http.Header(header).Get(XStrictHeader); v != "" {
++		strict, _ = strconv.ParseBool(v)
++	}
++	return strict
++}
++
++// Timeout returns the percentage of a timeout value from the header or the fallback value.
++func (header Header) Timeout(fallback time.Duration, percentage float64) time.Duration {
++	d, err := time.ParseDuration(http.Header(header).Get(XTimeoutHeader))
++	if err != nil {
++		d = fallback
++	}
++	return time.Duration(percentage * float64(d))
++}
+diff --git a/internal/handler/proxy.go b/internal/handler/proxy.go
+index d073208..b53431d 100644
+--- a/internal/handler/proxy.go
++++ b/internal/handler/proxy.go
+@@ -1,14 +1,16 @@
+ package handler
+ 
+ import (
++	"context"
+ 	"encoding/json"
+ 	"net/http"
++	"time"
+ 
+ 	"tech.avito.ru/service/internal"
+ )
+ 
+ type Caller interface {
+-	Call(internal.Action) error
++	Call(context.Context, internal.Action) error
+ }
+ 
+ func Proxy(caller Caller) http.Handler {
+@@ -26,7 +28,10 @@ func Proxy(caller Caller) http.Handler {
+ 			}
+ 		}
+ 
+-		err := caller.Call(internal.Action{
++		ctx, cancel := context.WithTimeout(req.Context(), Header(req.Header).Timeout(time.Second, 1.0))
++		defer cancel()
++
++		err := caller.Call(ctx, internal.Action{
+ 			URI:     uri,
+ 			Payload: payload,
+ 		})
+diff --git a/internal/service/caller.go b/internal/service/caller.go
+index ed1d905..e5789a4 100644
+--- a/internal/service/caller.go
++++ b/internal/service/caller.go
+@@ -2,6 +2,7 @@ package service
+ 
+ import (
+ 	"bytes"
++	"context"
+ 	"encoding/json"
+ 	"io"
+ 	"io/ioutil"
+@@ -16,19 +17,21 @@ func New() *implementation {
+ 
+ type implementation struct{}
+ 
+-func (i *implementation) Call(action internal.Action) error {
+-	if action.Payload == nil {
+-		resp, err := http.Get(action.URI)
+-		if err == nil {
+-			discard(resp.Body)
+-		}
++func (i *implementation) Call(ctx context.Context, action internal.Action) error {
++	req, err := http.NewRequestWithContext(ctx, http.MethodGet, action.URI, nil)
++	if err != nil {
+ 		return err
+ 	}
+-	body := new(bytes.Buffer)
+-	if err := json.NewEncoder(body).Encode(action.Payload); err != nil {
+-		return err
++	if action.Payload != nil {
++		body := new(bytes.Buffer)
++		if err := json.NewEncoder(body).Encode(action.Payload); err != nil {
++			return err
++		}
++		if req, err = http.NewRequestWithContext(ctx, http.MethodPost, action.URI, body); err != nil {
++			return err
++		}
+ 	}
+-	resp, err := http.Post(action.URI, "application/json", body)
++	resp, err := http.DefaultClient.Do(req)
+ 	if err == nil {
+ 		discard(resp.Body)
+ 	}
