@@ -92,7 +92,7 @@ $ deactivate
 - [golint](https://github.com/golang/lint) (Infomodel, Recommendations)
 - [golangci-lint](https://github.com/golangci/golangci-lint) (BuyerX, Verticals)
 - [codecoroner](https://github.com/3rf/codecoroner)<sup id="info-1">[1](#unsupported)</sup> (Recommendations)
-- [goimports](https://github.com/kamilsk/go-tools/releases/tag/goimports) (Avito, but...)<sup id="info-2">[2](#exception)</sup>
+- [goimports](https://github.com/kamilsk/go-tools/releases/tag/goimports) (Avito, but...<sup id="info-2">[2](#exception)</sup>)
 
 Ситуация: в предыдущей серии разработчик обнаружил несколько ошибок, которые ему подсветили линтеры.
 Инженерная культура не позволяет пройти мимо и не нанести пользу.

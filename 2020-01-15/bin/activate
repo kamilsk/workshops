@@ -33,7 +33,7 @@ deactivate () {
 }
 
 build () {
-    for caseX in case-1 case-2; do
+    for caseX in case-1 case-2 case-3; do
         docker build -f "${ROOT}/${caseX}"/Dockerfile \
                      -t 2020-01-15:"${caseX}" \
                      --force-rm --no-cache --pull --rm \
