@@ -13,7 +13,7 @@
 ### Подготовка
 
 ```bash
-$ activate
+$ source bin/activate
 $ build
 $ case-1
 ```
@@ -91,8 +91,50 @@ $ deactivate
 
 - [golint](https://github.com/golang/lint) (Infomodel, Recommendations)
 - [golangci-lint](https://github.com/golangci/golangci-lint) (BuyerX, Verticals)
-- [goimports](https://github.com/kamilsk/go-tools/releases/tag/goimports) (Avito, but...)
 - [codecoroner](https://github.com/3rf/codecoroner)<sup id="info-1">[1](#unsupported)</sup> (Recommendations)
+- [goimports](https://github.com/kamilsk/go-tools/releases/tag/goimports) (Avito, but...)<sup id="info-2">[2](#exception)</sup>
+
+Ситуация: в предыдущей серии разработчик обнаружил несколько ошибок, которые ему подсветили линтеры.
+Инженерная культура не позволяет пройти мимо и не нанести пользу.
+
+```bash
+$ source bin/activate
+$ case-2 golangci-lint run ./...
+$ case-2
+```
+
+### Проблема
+
+```bash
+# исправляем ошибки
+root@hash:/app# git apply /git/linter.patch
+root@hash:/app# golangci-lint run ./...
+root@hash:/app# go test -race ./...
+
+# наносим пользу
+root@hash:/app# git apply /git/good.patch
+root@hash:/app# go test -race ./...
+
+# прячем golangci-lint
+root@hash:/app# git apply /git/ignore.patch
+root@hash:/app# go test -race ./...
+root@hash:/app# go mod tidy
+
+# забыли про https://golang.org/pkg/go/build/#hdr-Build_Constraints
+root@hash:/app# git apply /git/rewrite.patch
+root@hash:/app# go mod tidy
+root@hash:/app# go test -race ./...
+root@hash:/app# go build -o "${GOPATH}"/bin/linter -v github.com/golangci/golangci-lint/cmd/golangci-lint
+root@hash:/app# ls -la $(which linter)
+```
+
+### Занавес
+
+```makefile
+lint:
+	@go build -o "$(GOPATH)"/bin/linter -v github.com/golangci/golangci-lint/cmd/golangci-lint
+	@golangci-lint run ./...
+```
 
 ## Сценарий третий
 
@@ -105,6 +147,10 @@ $ deactivate
 
 - [Dapr](https://github.com/dapr/dapr)
 - [GolangCI-Lint](https://github.com/golangci/golangci-lint)
-- [Standard Go Project Layout](https://github.com/golang-standards/project-layout)<sup>*</sup>
+- [Standard Go Project Layout](https://github.com/golang-standards/project-layout)<sup id="info-3">[3](#confused)</sup>
 
-<sup id="unsupported">1</sup> <small>Больше не поддерживается.</small> [↩](#info-1)
+---
+
+- <sup id="unsupported">1</sup> <small>Больше не поддерживается.</small> [↩](#info-1)
+- <sup id="exception">2</sup> <small>Редко кто запускает `avito service fmt`.</small> [↩](#info-2)
+- <sup id="confused">3</sup> <small>Спорное позиционирование.</small> [↩](#info-3)

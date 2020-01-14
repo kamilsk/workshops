@@ -19,11 +19,13 @@ deactivate () {
     if [[ ! "${1:-}" = "nondestructive" ]]; then
         unset -f deactivate
         unset -f build
+        unset -f clean
+        unset -f realpath
+
+        unset -f sandbox
         unset -f case-1
         unset -f case-2
         unset -f case-3
-        unset -f clean
-        unset -f realpath
     fi
 
     unset BINPATH
@@ -31,31 +33,12 @@ deactivate () {
 }
 
 build () {
-    docker build -f "${ROOT}"/case-1/Dockerfile \
-                 -t 2020-01-15:case-1 \
-                 --force-rm --no-cache --pull --rm \
-                 "${ROOT}"/case-1
-}
-
-case-1 () {
-    docker run --rm -it \
-               -v "${ROOT}"/case-1/project:/app \
-               -v "${ROOT}"/case-1/patches:/git \
-               2020-01-15:case-1 bash
-}
-
-case-2 () {
-    docker run --rm -it \
-               -v "${ROOT}"/case-2/project:/app \
-               -v "${ROOT}"/case-2/patches:/git \
-               2020-01-15:case-2 bash
-}
-
-case-3 () {
-    docker run --rm -it \
-               -v "${ROOT}"/case-3/project:/app \
-               -v "${ROOT}"/case-3/patches:/git \
-               2020-01-15:case-3 bash
+    for caseX in case-1 case-2; do
+        docker build -f "${ROOT}/${caseX}"/Dockerfile \
+                     -t 2020-01-15:"${caseX}" \
+                     --force-rm --no-cache --pull --rm \
+                     "${ROOT}/${caseX}"
+    done
 }
 
 clean () {
@@ -69,6 +52,19 @@ realpath () {
     fi
     echo "$(cd `dirname ${1}` && pwd)/${1}"
 }
+
+sandbox () {
+    caseX=${1:-case-1}
+    command=${@:2}
+    command=${command:-bash}
+    docker run --rm -it \
+               -v "${ROOT}/${caseX}"/project:/app \
+               -v "${ROOT}/${caseX}"/patches:/git \
+               2020-01-15:"${caseX}" $(echo ${command})
+}
+case-1 () { sandbox $0 }
+case-2 () { sandbox $0 $@ }
+case-3 () { sandbox $0 }
 
 deactivate nondestructive
 

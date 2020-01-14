@@ -1,0 +1,10 @@
+diff --git a/good.go b/good.go
+index c552822..ac8094d 100644
+--- a/good.go
++++ b/good.go
+@@ -1,4 +1,4 @@
+-// +build ignore
++// +build tools
+ 
+ package project
+ 
