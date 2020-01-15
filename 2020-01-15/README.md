@@ -138,16 +138,40 @@ lint:
 
 ## Сценарий третий
 
-Обзор доступных подходов.
+### Идеальный мир
 
-- [Откуда растут ноги](https://github.com/golang/go/issues/25922)
-- [Автор gobin](https://github.com/myitcv/gobin)
+```bash
+# архитектура делает заготовку частью go.avito.ru/gl/app-boilerplate
+root@hash:/app# git apply /git/boilerplate.patch
+
+# команда прозрачно интегрирует свой инструментарий
+root@hash:/app# git apply /git/team.patch
+
+# любой разработчик в Avito понимает, как ему интегрироваться
+root@hash:/app# git apply /git/contributor.patch
+
+# точка старта
+root@hash:/app# make deps
+
+# использование
+root@hash:/app# make generate format test lint
+# или
+root@hash:/app# source bin/activate
+root@hash:/app# which goimports golangci-lint mockgen
+```
 
 ### Примеры
 
 - [Dapr](https://github.com/dapr/dapr)
 - [GolangCI-Lint](https://github.com/golangci/golangci-lint)
 - [Standard Go Project Layout](https://github.com/golang-standards/project-layout)<sup id="info-3">[3](#confused)</sup>
+
+### Обзор
+
+- [Paul Jolly](https://github.com/myitcv)
+- [И его issue](https://github.com/golang/go/issues/25922)
+- [Официальная позиция](https://github.com/golang/go/wiki/Modules#how-can-i-track-tool-dependencies-for-a-module)
+- [И небольшой ресёрч](https://github.com/under-the-hood/egg)
 
 ---
 

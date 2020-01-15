@@ -1,0 +1,67 @@
+diff --git a/Makefile b/Makefile
+index 265fa93..cb6f1f2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -5,3 +5,23 @@ GOPRIVATE = go.avito.ru
+ SHELL     = /bin/bash -euo pipefail
+ 
+ export PATH := $(BINPATH):$(PATH)
++
++.PHONY: deps
++deps: tools
++	@$(GO) mod tidy
++
++.PHONY: tools
++tools:
++	@cd tools && $(GO) mod tidy && $(GO) generate tools.go
++
++
++.PHONY: generate
++generate: avito-generate go-generate
++
++.PHONY: avito-generate
++avito-generate:
++	@avito codegen
++
++.PHONY: go-generate
++go-generate:
++	@$(GO) generate ./...
+diff --git a/tools/go.mod b/tools/go.mod
+index 5c75218..bffb9f5 100644
+--- a/tools/go.mod
++++ b/tools/go.mod
+@@ -1,3 +1,5 @@
+ module tech.avito.ru/service/tools
+ 
+ go 1.11
++
++require github.com/golang/mock v1.3.1
+diff --git a/tools/go.sum b/tools/go.sum
+new file mode 100644
+index 0000000..0c07f25
+--- /dev/null
++++ b/tools/go.sum
+@@ -0,0 +1,9 @@
++github.com/golang/mock v1.3.1 h1:qGJ6qTW+x6xX/my+8YUVl4WNpX9B7+/l2tRsHGZ7f2s=
++github.com/golang/mock v1.3.1/go.mod h1:sBzyDLLjw3U8JLTeZvSv8jJB+tU5PVekmnlKIyFUx0Y=
++golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
++golang.org/x/net v0.0.0-20190311183353-d8887717615a/go.mod h1:t9HGtf8HONx5eT2rtn7q6eTqICYqUVnKs3thJo3Qplg=
++golang.org/x/sync v0.0.0-20190423024810-112230192c58/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
++golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
++golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
++golang.org/x/tools v0.0.0-20190425150028-36563e24a262 h1:qsl9y/CJx34tuA7QCPNp86JNJe4spst6Ff8MjvPUdPg=
++golang.org/x/tools v0.0.0-20190425150028-36563e24a262/go.mod h1:RgjU9mgBXZiqYHBnxXauZ1Gv1EHHAz9KjViQ78xBX0Q=
+diff --git a/tools/tools.go b/tools/tools.go
+index 52a9fac..fb81aae 100644
+--- a/tools/tools.go
++++ b/tools/tools.go
+@@ -1,3 +1,9 @@
+ // +build tools
+ 
+ package tools
++
++import (
++	_ "github.com/golang/mock/mockgen"
++)
++
++//go:generate go build -v -o=../bin/mockgen github.com/golang/mock/mockgen
