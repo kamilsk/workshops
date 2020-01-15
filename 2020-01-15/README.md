@@ -121,7 +121,7 @@ root@hash:/app# go test -race ./...
 root@hash:/app# go mod tidy
 
 # забыли про https://golang.org/pkg/go/build/#hdr-Build_Constraints
-root@hash:/app# git apply /git/rewrite.patch
+root@hash:/app# git apply /git/retag.patch
 root@hash:/app# go mod tidy
 root@hash:/app# go test -race ./...
 root@hash:/app# go build -o "${GOPATH}"/bin/linter -v github.com/golangci/golangci-lint/cmd/golangci-lint
@@ -137,6 +137,10 @@ lint:
 ```
 
 ## Сценарий третий
+
+```bash
+$ case-3
+```
 
 ### Идеальный мир
 
@@ -154,7 +158,7 @@ root@hash:/app# git apply /git/contributor.patch
 root@hash:/app# make deps
 
 # использование
-root@hash:/app# make generate format test lint
+root@hash:/app# make go-generate format test lint # make generate если есть avito cli
 # или
 root@hash:/app# source bin/activate
 root@hash:/app# which goimports golangci-lint mockgen

@@ -17,15 +17,20 @@ deactivate () {
     fi
 
     if [[ ! "${1:-}" = "nondestructive" ]]; then
+        clean
+
         unset -f deactivate
         unset -f build
         unset -f clean
+        unset -f flush
         unset -f realpath
 
         unset -f sandbox
         unset -f case-1
         unset -f case-2
         unset -f case-3
+
+        reset last empty commit
     fi
 
     unset BINPATH
@@ -42,7 +47,11 @@ build () {
 }
 
 clean () {
-    git reset --hard && git clean -df
+    git reset --hard HEAD~1 && git clean -df
+}
+
+flush () {
+    git add . && git commend
 }
 
 realpath () {
@@ -88,3 +97,5 @@ fi
 if [[ -n "${BASH:-}" || -n "${ZSH_VERSION:-}" ]]; then
     hash -r
 fi
+
+git commit --allow-empty -m 'delete me'
