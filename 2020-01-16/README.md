@@ -1,6 +1,6 @@
-> # Go tools, как доставлять бинарные зависимости
+> # 👨‍🏫 Go tools, как доставлять бинарные зависимости
 
-## Сценарий первый
+## 👨‍💻 Сценарий первый
 
 Внесение правок, которые потребуют перегенерации существующего кода инструментами, принятыми в команде.
 
@@ -10,7 +10,7 @@
 Ситуация: кто-то из команды (BuyerX | Verticals) решил исправить проблему, которую он обнаружил в
 сервисе (Infomodel | Core Services).
 
-### Подготовка
+### 👷‍♂️ Подготовка
 
 ```bash
 $ source bin/activate
@@ -18,7 +18,7 @@ $ build
 $ case-1
 ```
 
-### Проблема
+### 🤦‍♂️ Проблема
 
 ```bash
 root@hash:/app# tree
@@ -78,14 +78,14 @@ root@hash:/app# go mod why github.com/vektra/mockery
 root@hash:/app# go mod tidy # https://github.com/vektra/mockery/blob/master/go.mod#L4
 ```
 
-### Занавес
+### 🤷‍♂️ Занавес
 
 ```bash
 $ clean
 $ deactivate
 ```
 
-## Сценарий второй
+## 👨‍💻 Сценарий второй
 
 Внесение правок с помощью своих инструментов. Примеры:
 
@@ -103,7 +103,7 @@ $ case-2 golangci-lint run ./...
 $ case-2
 ```
 
-### Проблема
+### 🤦‍♂️ Проблема
 
 ```bash
 # исправляем ошибки
@@ -128,7 +128,7 @@ root@hash:/app# go build -o "${GOPATH}"/bin/linter -v github.com/golangci/golang
 root@hash:/app# ls -la $(which linter)
 ```
 
-### Занавес
+### 🤷‍♂️ Занавес
 
 ```makefile
 lint:
@@ -136,13 +136,13 @@ lint:
 	@golangci-lint run ./...
 ```
 
-## Сценарий третий
+## 👨‍💻 Сценарий третий
 
 ```bash
 $ case-3
 ```
 
-### Идеальный мир
+### 🤵 Идеальный мир
 
 ```bash
 # архитектура делает заготовку частью go.avito.ru/gl/app-boilerplate
@@ -164,13 +164,13 @@ root@hash:/app# source bin/activate
 root@hash:/app# which goimports golangci-lint mockgen
 ```
 
-### Примеры
+### 👨‍🎓 Примеры
 
 - [Dapr](https://github.com/dapr/dapr)
 - [GolangCI-Lint](https://github.com/golangci/golangci-lint)
 - [Standard Go Project Layout](https://github.com/golang-standards/project-layout)<sup id="info-3">[3](#confused)</sup>
 
-### Обзор
+### 🕵️‍♂️ Обзор
 
 - [Paul Jolly](https://github.com/myitcv)
 - [И его issue](https://github.com/golang/go/issues/25922)
@@ -182,3 +182,5 @@ root@hash:/app# which goimports golangci-lint mockgen
 - <sup id="unsupported">1</sup> <small>Больше не поддерживается.</small> [↩](#info-1)
 - <sup id="exception">2</sup> <small>Редко кто запускает `avito service fmt`.</small> [↩](#info-2)
 - <sup id="confused">3</sup> <small>Спорное позиционирование.</small> [↩](#info-3)
+
+made with ❤️ for everyone
