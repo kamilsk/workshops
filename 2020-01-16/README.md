@@ -7,8 +7,8 @@
 - [gomock](https://github.com/golang/mock) (BuyerX, Verticals)
 - [mockery](https://github.com/vektra/mockery) (Infomodel, Core Services)
 
-Ситуация: кто-то из команды (BuyerX | Verticals) решил исправить проблему, которую он обнаружил в
-сервисе (Infomodel | Core Services).
+Ситуация: кто-то из команды (Core Services | Infomodel) решил исправить проблему,
+которую он обнаружил в сервисе (BuyerX | Verticals).
 
 ### 👷‍♂️ Подготовка
 
