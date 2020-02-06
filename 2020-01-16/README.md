@@ -170,7 +170,7 @@ root@hash:/app# which goimports golangci-lint mockgen
 - [GolangCI-Lint](https://github.com/golangci/golangci-lint)
 - [Standard Go Project Layout](https://github.com/golang-standards/project-layout)<sup id="info-3">[3](#confused)</sup>
 
-### 🕵️‍♂️ Обзор
+## 🕵️‍♂️ Обзор
 
 - [Paul Jolly](https://github.com/myitcv)
 - [И его issue](https://github.com/golang/go/issues/25922)
