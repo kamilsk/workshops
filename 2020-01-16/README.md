@@ -1,4 +1,25 @@
 > # 👨‍🏫 Go tools, как доставлять бинарные зависимости
+>
+> If you:
+>
+> - want to use a go-based tool (e.g. `stringer`) while working on a module, and
+> - want to ensure that everyone is using the same version of that tool while tracking the tool's version in your module's `go.mod` file
+>
+> then one currently recommended approach is to add a `tools.go` file to your module that includes import statements for the tools of interest
+> (such as `import _ "golang.org/x/tools/cmd/stringer"`), along with a `// +build tools` build constraint. The import statements allow
+> the go command to precisely record the version information for your tools in your module's `go.mod`, while the `// +build tools`
+> build constraint prevents your normal builds from actually importing your tools.
+
+## 🏆 Мотивация
+
+В [Avito](https://tech.avito.ru) много команд, пишущих на Go свои сервисы, и каждая такая команда, как правило, использует наиболее удобный для себя
+набор инструментов при решении ежедневных задач (кодогенерация, форматирование, линтинг). При отсутствии единого подхода очевидны две проблемы,
+которые могут возникнуть при разработке:
+
+- кросс-командная разработка (сценарий [первый](#-сценарий-первый) и [второй](#-сценарий-второй))
+- консистентность инструментария внутри команды (версии, форки, etc)
+
+В сообществе Go уже есть подход, который позволяет решать данные проблемы. Его я и хочу внедрить на уровне компании.
 
 ## 👨‍💻 Сценарий первый
 

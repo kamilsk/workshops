@@ -1,9 +1,19 @@
 > # 👨‍🏫 Go module, как перевести свой PaaS-сервис
+>
+> In Go 1.14, module support will be considered ready for production use, and all users will be encouraged
+> to migrate to modules from other dependency management systems.
 
 ## 🏆 Мотивация
 
-> In Go 1.14, module support will be considered ready for production use, and all users will be encouraged
-> to migrate to modules from other dependency management systems.
+В [Avito](https://tech.avito.ru) много команд, пишущих на Go свои сервисы и библиотеки. Некоторая часть из них всё ещё использует
+[dep](https://golang.github.io/dep/) для управления зависимостями и/или даже старые версии компилятора.
+
+На этом коротком семинаре я хочу показать
+
+- почему нам стоит прислушаться к совету [Russ Cox](https://github.com/golang/dep/issues/1959#issuecomment-407947097)
+- что поддерживать версии компилятора в актуальном состоянии это совсем не сложно
+- и что перейти на `go mod` проще простого, и даже наш любимый [Kubernetes](https://kubernetes.io) сделал это
+ещё [год назад](https://github.com/kubernetes/kubernetes/commit/ef4983fb523b4e277313716ff702cb09e995316d#diff-37aff102a57d3d7b797f152915a6dc16)
 
 ## 🤦‍♂️ Проблема
 
