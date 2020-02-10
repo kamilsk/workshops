@@ -17,13 +17,13 @@
 
 ## 🤦‍♂️ Проблема
 
-- [GOPATH](https://github.com/golang/go/wiki/GOPATH)
-- [GO15VENDOREXPERIMENT](https://github.com/golang/go/wiki/PackageManagementTools#go15vendorexperiment)
-- [GO111MODULE](https://github.com/golang/go/wiki/PackageManagementTools#go111module)
+- [GOPATH](https://github.com/golang/go/wiki/GOPATH) и миф о стабильном мастере
+- [GO15VENDOREXPERIMENT](https://github.com/golang/go/wiki/PackageManagementTools#go15vendorexperiment) и зоопарк
+- [GO111MODULE](https://github.com/golang/go/wiki/PackageManagementTools#go111module) и трудности перехода
 
 ## 👨‍💻 Три простых шага
 
-0. `echo 'export GOPRIVATE=go.avito.ru' | tee -a ~/.bash_profile ~/.zshrc`.
+0. `go env -w GOPRIVATE=go.avito.ru` или `echo 'export GOPRIVATE=go.avito.ru' | tee -a ~/.bash_profile ~/.zshrc`.
 1. [go mod init](https://tip.golang.org/pkg/cmd/go/internal/modconv/?m=all#pkg-variables).
 2. Удалить legacy.
 3. Обновить Dockerfile.
