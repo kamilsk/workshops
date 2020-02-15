@@ -37,10 +37,18 @@
 - [Selected Go-internal packages factored out from the standard library](https://github.com/rogpeppe/go-internal)
 - [Versioned Go Prototype](https://github.com/golang/vgo)
 
-## 👨‍🔬 Перенести в research
+## 📝 To do
+
+### 👨‍🔬 Перенести в research
 
 - [A wrapper around the go tool that automatically sets GOPATH](https://github.com/myitcv/go)
 - [Make temporary edits to your Go module dependencies](https://github.com/rogpeppe/gohack)
+
+### 🚀 Улучшение
+
+- go mod vs dep, преимущества + терминология (проект, модуль, пакет)
+- основные команды и кейсы для их использования, сравнение с dep
+- совмещение vX/vY, replace для локальной разработки
 
 ---
 
