@@ -36,6 +36,10 @@ github.com/google/gofuzz vs github.com/dvyukov/go-fuzz
 
 github.com/onsi/ginkgo vs built-in testing
 
+## 🕵️‍♂️ Обзор
+
+- [GopherCon 2017: Mitchell Hashimoto - Advanced Testing with Go](https://youtu.be/8hQG7QlcLBk)
+
 ---
 
 made with ❤️ for everyone
