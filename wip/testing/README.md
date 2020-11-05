@@ -36,6 +36,12 @@ github.com/google/gofuzz vs github.com/dvyukov/go-fuzz
 
 github.com/onsi/ginkgo vs built-in testing
 
+### Extra
+
+...
+
+github.com/rakyll/gotest, github.com/uber-go/goleak vs github.com/fortytw2/leaktest
+
 ## 🕵️‍♂️ Обзор
 
 - [GopherCon 2017: Mitchell Hashimoto - Advanced Testing with Go](https://youtu.be/8hQG7QlcLBk)
