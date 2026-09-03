@@ -1,11 +1,11 @@
 package runtime
 
 import (
-	"errors"
 	"io"
-	"io/ioutil"
 
+	"errors"
 	"github.com/golang/protobuf/proto"
+	"io/ioutil"
 )
 
 // ProtoMarshaller is a Marshaller which marshals/unmarshals into/from serialize proto bytes
